@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         listView =  findViewById(R.id.lvMain);
         tvlastBuiltDate = findViewById(R.id.tvlastBuiltDate);
         realm = Realm.getDefaultInstance();
@@ -52,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.show();
         GetData();
-      /*  Intent myIntent = new Intent(MainActivity.this, CameraActivity.class);
+
+        /*Intent myIntent = new Intent(MainActivity.this, CameraActivity.class);
         myIntent.putExtra("key", "value");
         MainActivity.this.startActivity(myIntent);*/
     }
+
 
     @Override
     protected void onStop() {
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
 
     public interface GetWeatherToday {

@@ -551,9 +551,6 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
 
             paint.textAlign = Paint.Align.LEFT
 
-
-
-
             //Paint DateTime
             paint.textSize = SizeTextDetailGPS.toFloat()
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
@@ -562,10 +559,11 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             //Paint GPS
             paint.textSize = SizeTextDetailGPSAddress.toFloat()
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+
             if (Temperature != null)
-            canvas.drawText("จังหวัด $province อุณหภูมิ ${Temperature.toString()}" , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+            canvas.drawText("${getString(R.string.txt_province)} $province ${getString(R.string.txt_temperature)} ${Temperature.toString()}" , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
             else
-                canvas.drawText("จังหวัด $province " , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+                canvas.drawText("${getString(R.string.txt_province)} $province " , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
 
 
         } else run {
@@ -610,9 +608,9 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             paint.textSize = SizeTextDetailGPSAddress.toFloat()
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
             if (Temperature != null)
-            canvas.drawText("จังหวัด $province อุณหภูมิ ${Temperature.toString()}", xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+            canvas.drawText("${getString(R.string.txt_province)} $province ${getString(R.string.txt_temperature)} ${Temperature.toString()}", xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
             else
-                canvas.drawText("จังหวัด $province " , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+                canvas.drawText("${getString(R.string.txt_province)} $province " , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
 
         }
         return mutableBitmap

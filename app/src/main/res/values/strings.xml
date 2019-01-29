@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WeatherToday</string>
+    <string name="txt_temperature">อุณหภูมิ</string>
+    <string name="txt_province">จังหวัด</string>
 </resources>
