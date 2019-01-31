@@ -1,5 +1,6 @@
 package com.doubleapaper.weathertoday;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,12 +33,13 @@ import retrofit2.http.Query;
 
 public class AQIStationActivity extends AppCompatActivity {
 
+    private String TAG = AQIStationActivity.class.getSimpleName();
     private Realm realm;
     private SweetAlertDialog pDialog;
     private static String URL = "http://air4thai.pcd.go.th/services/";
     private TextView tvAqi;
     private TextView tvName, tvArea;
-
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +50,27 @@ public class AQIStationActivity extends AppCompatActivity {
         tvAqi = findViewById(R.id.tvAqi);
         tvName = findViewById(R.id.tvName);
         tvArea = findViewById(R.id.tvArea);
-
-
+        tvAqi.setText("");
+        tvArea.setText("");
+        tvName.setText("");
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5FF86"));
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
         pDialog.show();
-        GetData();
+        GetDataStation();
     }
-
 
     @Override
     protected void onStop() {
         super.onStop();
         realm.close();
     }
-
 
     public interface GetAQI {
         @GET("getNewAQI_JSON.php")
@@ -74,21 +79,47 @@ public class AQIStationActivity extends AppCompatActivity {
         @GET("getNewAQI_JSON.php/")
         Call<AQIRegion> GetAQIRegion(@Query("region") int regionID);
     }
+    public void GetDataRegion(){
+    /*    1กรุงเทพฯและปริมณฑล
+        2ภาคเหนือ
+        5ภาคตะวันออกเฉียงเหนือ
+        7ภาคกลางและตะวันตก
+        3ภาคตะวันออก
+        6ภาคใต้
+        8พื้นที่ ต.หน้าพระลาน*/
 
-    public void GetData(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        GetAQI service = retrofit.create(GetAQI.class);
+        Call<AQIRegion> call = service.GetAQIRegion(3);
 
+        call.enqueue(new Callback<AQIRegion>() {
+            @Override
+            public void onResponse(Call<AQIRegion> call, Response<AQIRegion> response) {
+                if (response.isSuccessful()){
+                    if (pDialog.isShowing())
+                        pDialog.dismiss();
+                }
+            }
+            @Override
+            public void onFailure(Call<AQIRegion> call, Throwable t) {
+                if (pDialog.isShowing())
+                    pDialog.dismiss();
+
+            }
+        });
+    }
+    public void GetDataStation(){
+        /*
+        60t ต.วังเย็น, อ.แปลงยาว, ฉะเชิงเทรา
+        32t ต.ทุ่งสุขลา อ.ศรีราชา, ชลบุรี
+        71t ต.อรัญประเทศ, อ.อรัญประเทศ, สระแก้ว
+        77t ต.ท่าตูม อ.ศรีมหาโพธิ, จ.ปราจีนบุรี
+         */
         GetAQI service = retrofit.create(GetAQI.class);
         Call<AQIStation> call = service.GetAQIStation("77t");
 
         call.enqueue(new Callback<AQIStation>() {
             @Override
             public void onResponse(Call<AQIStation> call, Response<AQIStation> response) {
-                Log.i("joke","reponse " + response.message());
-                Log.i("joke","reponse " + response.body().getJsonMemberLong());
                 if (response.isSuccessful()){
                     clearData();
                     AQIStation aqiStation = response.body();
@@ -101,13 +132,16 @@ public class AQIStationActivity extends AppCompatActivity {
                     tvAqi.setText(aqi.getAqi());
                     tvArea.setText(aqiStation.getAreaTH());
                     tvName.setText(aqiStation.getNameTH());
+                    Intent myIntent = new Intent(AQIStationActivity.this, CameraActivity.class);
+                    myIntent.putExtra("key", "value");
+                    AQIStationActivity.this.startActivity(myIntent);
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<AQIStation> call, Throwable t) {
-                Log.i("joke","reponse " + t.getMessage());
                 if (pDialog.isShowing())
                     pDialog.dismiss();
                 tvAqi.setText("");

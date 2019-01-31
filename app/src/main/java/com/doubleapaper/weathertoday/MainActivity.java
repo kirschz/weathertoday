@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doubleapaper.weathertoday.Object.AQIStation.AQI;
+import com.doubleapaper.weathertoday.Object.AQIStation.AQIStation;
 import com.doubleapaper.weathertoday.Object.Header;
 import com.doubleapaper.weathertoday.Object.Observe;
 import com.doubleapaper.weathertoday.Object.StationsItem;
@@ -61,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.show();
         GetData();
-
-
     }
 
 
@@ -110,14 +110,13 @@ public class MainActivity extends AppCompatActivity {
                     listView.setAdapter(listAdapter);
                     if (pDialog.isShowing()) pDialog.dismiss();
 
-                    Intent myIntent = new Intent(MainActivity.this, CameraActivity.class);
+                    Intent myIntent = new Intent(MainActivity.this, AQIStationActivity.class);
                     myIntent.putExtra("key", "value");
-                   // MainActivity.this.startActivity(myIntent);
+                    MainActivity.this.startActivity(myIntent);
 
                 }
 
             }
-
 
             @Override
             public void onFailure(Call<WeatherResponse> call, Throwable t) {
