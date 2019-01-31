@@ -15,6 +15,8 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
+import com.doubleapaper.weathertoday.Object.AQIStation.AQI
+import com.doubleapaper.weathertoday.Object.AQIStation.AQIStation
 import com.doubleapaper.weathertoday.Object.Header
 import com.doubleapaper.weathertoday.Object.StationsItem
 import com.google.android.gms.location.DetectedActivity
@@ -493,6 +495,18 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             var puppies = realm.where(StationsItem::class.java).findAll()
             Temperature = puppies[0]!!.temperatureValue
         }
+        var aqiStation = realm.where(AQIStation::class.java).findAll();
+        var area = ""
+        var nameTh = ""
+        var aqiValue =""
+        if (aqiStation.size >0) {
+            area = aqiStation[0]!!.areaTH
+            nameTh = aqiStation[0]!!.nameTH
+        }
+        var aqi = realm.where(AQI::class.java).findAll();
+        if (aqi.size > 0) {
+            aqiValue = "AQI : " + aqi[0]!!.aqi
+        }
         val mutableBitmap = back.copy(Bitmap.Config.ARGB_8888, true)
 
         var canvas = Canvas(mutableBitmap)
@@ -561,9 +575,9 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
 
             if (Temperature != null)
-            canvas.drawText("${getString(R.string.txt_province)} $province ${getString(R.string.txt_temperature)} ${Temperature.toString()}" , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+            canvas.drawText("${getString(R.string.txt_province)} $province ${getString(R.string.txt_temperature)} ${Temperature.toString()} $aqiValue" , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
             else
-                canvas.drawText("${getString(R.string.txt_province)} $province " , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+                canvas.drawText("${getString(R.string.txt_province)} $province $aqiValue" , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
 
 
         } else run {
@@ -608,9 +622,9 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             paint.textSize = SizeTextDetailGPSAddress.toFloat()
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
             if (Temperature != null)
-            canvas.drawText("${getString(R.string.txt_province)} $province ${getString(R.string.txt_temperature)} ${Temperature.toString()}", xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+            canvas.drawText("${getString(R.string.txt_province)} $province ${getString(R.string.txt_temperature)} ${Temperature.toString()} $aqiValue", xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
             else
-                canvas.drawText("${getString(R.string.txt_province)} $province " , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
+                canvas.drawText("${getString(R.string.txt_province)} $province $aqiValue" , xpos.toFloat(), (rh * 0.985).toInt().toFloat(), paint)
 
         }
         return mutableBitmap
