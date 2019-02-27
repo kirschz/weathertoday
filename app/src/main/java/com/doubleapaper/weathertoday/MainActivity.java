@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
                     listView.setAdapter(listAdapter);
                     if (pDialog.isShowing()) pDialog.dismiss();
 
-                    Intent myIntent = new Intent(MainActivity.this, AQIStationActivity.class);
-                    myIntent.putExtra("key", "value");
-                    MainActivity.this.startActivity(myIntent);
+                   // Intent myIntent = new Intent(MainActivity.this, AQIStationActivity.class);
+                   // myIntent.putExtra("key", "value");
+                    //MainActivity.this.startActivity(myIntent);
 
                 }
 
@@ -133,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
                     WeatherAdapter listAdapter = new WeatherAdapter(unmanagedList);
                     listView.setAdapter(listAdapter);
                     if (pDialog.isShowing()) pDialog.dismiss();
+
+                    Intent myIntent = new Intent(MainActivity.this, AQIStationActivity.class);
+                    myIntent.putExtra("key", "value");
+                    MainActivity.this.startActivity(myIntent);
                 }catch (Exception ex){
                     if (pDialog.isShowing()) pDialog.dismiss();
                 }

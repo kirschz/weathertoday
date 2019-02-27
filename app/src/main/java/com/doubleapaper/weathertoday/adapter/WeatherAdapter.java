@@ -1,9 +1,12 @@
 package com.doubleapaper.weathertoday.adapter;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.doubleapaper.weathertoday.AQIStationActivity;
+import com.doubleapaper.weathertoday.MainActivity;
 import com.doubleapaper.weathertoday.Object.StationsItem;
 import com.doubleapaper.weathertoday.view.WeatherListItems;
 
@@ -35,7 +38,7 @@ public class WeatherAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, final View view, final ViewGroup viewGroup) {
         WeatherListItems item;
         if (view != null)
             item = (WeatherListItems) view;
@@ -43,10 +46,27 @@ public class WeatherAdapter extends BaseAdapter {
             item = new WeatherListItems(viewGroup.getContext());
 
         StationsItem weatherDao = (StationsItem) getItem(i);
-        if (weatherDao.getObserve() != null)
+        if (weatherDao.getObserve() != null) {
             item.setTvWeatherItemTemperature(weatherDao.getObserve().getTemperature().getValue() + "");
-        else
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(viewGroup.getContext(), AQIStationActivity.class);
+                    myIntent.putExtra("key", "value");
+                    viewGroup.getContext().startActivity(myIntent);
+                }
+            });
+        }else {
             item.setTvWeatherItemTemperature(weatherDao.getTemperatureValue() + "");
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(viewGroup.getContext(), AQIStationActivity.class);
+                    myIntent.putExtra("key", "value");
+                    viewGroup.getContext().startActivity(myIntent);
+                }
+            });
+        }
         item.setTvWeatherStationNameTh(weatherDao.getStationNameTh());
 
         return item;

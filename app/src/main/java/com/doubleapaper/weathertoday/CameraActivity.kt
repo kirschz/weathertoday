@@ -51,7 +51,6 @@ private const val LOGGING_TAG = "Fotoapparat Example"
 
 class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivityUpdatedListener, OnGeofencingTransitionListener {
 
-
     private var orientationEventListener: OrientationEventListener? = null
 
     private var permissionsGranted: Boolean = false
@@ -70,6 +69,7 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
         realm = Realm.getDefaultInstance()
+
         cameraView.visibility = View.VISIBLE
         permissionsGranted =  true
         setGpsStatus()
@@ -133,32 +133,31 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
                             detectedActivity.confidence)
             )*/
     }
-    private fun showLocation(location: Location?) {
-        if (location != null) {
-            gpsStatus.setImageResource(R.drawable.round_gps_fixed_24)
-            val text = String.format("Latitude %.8f, Longitude %.8f",
-                    location.latitude,
-                    location.longitude)
+    private fun showLocation(location: Location?) = if (location != null) {
 
-            SmartLocation.with(this).geocoding().reverse(location) { original, results ->
-                if (results.size > 0) {
-                    val result = results[0]
-                    val builder = StringBuilder(text)
-                    builder.append("\n[Reverse Geocoding] ")
-                    val addressElements = ArrayList<String>()
-                    for (i in 0..result.maxAddressLineIndex) {
-                        addressElements.add(result.getAddressLine(i))
-                    }
-                    builder.append(TextUtils.join(", ", addressElements))
+        gpsStatus.setImageResource(R.drawable.round_gps_fixed_24)
+        val text = String.format("Latitude %.8f, Longitude %.8f",
+                location.latitude,
+                location.longitude)
 
-                    province = result.adminArea
-
+        SmartLocation.with(this).geocoding().reverse(location) { original, results ->
+            if (results.size > 0) {
+                val result = results[0]
+                val builder = StringBuilder(text)
+                builder.append("\n[Reverse Geocoding] ")
+                val addressElements = ArrayList<String>()
+                for (i in 0..result.maxAddressLineIndex) {
+                    addressElements.add(result.getAddressLine(i))
                 }
+                builder.append(TextUtils.join(", ", addressElements))
+
+                province = result.adminArea
+
             }
-        } else {
-            //locationText.setText("Null location")
-            gpsStatus.setImageResource(R.drawable.round_gps_not_fixed_24)
         }
+    } else {
+        //locationText.setText("Null location")
+        gpsStatus.setImageResource(R.drawable.round_gps_not_fixed_24)
     }
 
     private fun startLocation() {
@@ -309,6 +308,11 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             fotoapparat.stop()
             stopLocation()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopLocation()
     }
     private fun adjustViewsVisibility() {
         fotoapparat.getCapabilities()
@@ -609,7 +613,6 @@ class CameraActivity : AppCompatActivity() , OnLocationUpdatedListener, OnActivi
             paint.alpha = 255
 
             paint.textAlign = Paint.Align.LEFT
-
 
 
 

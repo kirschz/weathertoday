@@ -60,7 +60,7 @@ public class AQIStationActivity extends AppCompatActivity {
 
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5FF86"));
-        pDialog.setTitleText("Loading");
+        pDialog.setTitleText("Loading AQI");
         pDialog.setCancelable(false);
         pDialog.show();
         GetDataStation();
@@ -73,7 +73,7 @@ public class AQIStationActivity extends AppCompatActivity {
     }
 
     public interface GetAQI {
-        @GET("getNewAQI_JSON.php")
+        @GET("getNewAQI_JSON.php/")
         Call<AQIStation> GetAQIStation(@Query("stationID") String stationID);
 
         @GET("getNewAQI_JSON.php/")
@@ -120,6 +120,7 @@ public class AQIStationActivity extends AppCompatActivity {
         call.enqueue(new Callback<AQIStation>() {
             @Override
             public void onResponse(Call<AQIStation> call, Response<AQIStation> response) {
+
                 if (response.isSuccessful()){
                     clearData();
                     AQIStation aqiStation = response.body();
@@ -129,12 +130,12 @@ public class AQIStationActivity extends AppCompatActivity {
                     aqi.insertData(realm, aqi, aqiStation.getStationID());
                     if (pDialog.isShowing())
                         pDialog.dismiss();
-                    tvAqi.setText(aqi.getAqi());
+                    tvAqi.setText("AQI : " +aqi.getAqi());
                     tvArea.setText(aqiStation.getAreaTH());
                     tvName.setText(aqiStation.getNameTH());
-                    Intent myIntent = new Intent(AQIStationActivity.this, CameraActivity.class);
-                    myIntent.putExtra("key", "value");
-                    AQIStationActivity.this.startActivity(myIntent);
+                    //Intent myIntent = new Intent(AQIStationActivity.this, CameraActivity.class);
+                    //myIntent.putExtra("key", "value");
+                    //AQIStationActivity.this.startActivity(myIntent);
 
                 }
 
@@ -147,6 +148,8 @@ public class AQIStationActivity extends AppCompatActivity {
                 tvAqi.setText("");
                 tvArea.setText("");
                 tvName.setText("");
+                Toast.makeText(AQIStationActivity.this,"Fail:" +t.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         });
     }
