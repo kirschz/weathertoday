@@ -31,6 +31,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Dexter.withActivity(this)
                     .withPermissions(
@@ -45,7 +46,7 @@ public class SplashScreen extends AppCompatActivity {
                         handler = new Handler();
                         runnable = new Runnable() {
                             public void run() {
-                                Intent myIntent = new Intent(SplashScreen.this, MainActivity.class);
+                                Intent myIntent = new Intent(SplashScreen.this, Calculator.class);
                                 myIntent.putExtra("key", "value");
                                 SplashScreen.this.startActivity(myIntent);
                                 finish();
@@ -68,7 +69,10 @@ public class SplashScreen extends AppCompatActivity {
 
             }).check();
         }else {
-
+            Intent myIntent = new Intent(SplashScreen.this, MainActivity.class);
+            myIntent.putExtra("key", "value");
+            SplashScreen.this.startActivity(myIntent);
+            finish();
         }
     }
 

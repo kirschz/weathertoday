@@ -36,6 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -80,10 +81,11 @@ public class MainActivity extends AppCompatActivity {
     public interface GetWeatherToday {
         @GET("V1/")
         Call<WeatherResponse> GetWeatherToday(@Query("type") String type);
+
     }
     public void GetData(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://data.tmd.go.th/api/WeatherToday/")
+                .baseUrl("https://data.tmd.go.th/api/a/WeatherToday/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 Log.i("MainActivity","code:" +response.code());
+
                 if (response.isSuccessful()){
                    WeatherResponse weatherResponse = response.body();
                    List<StationsItem> stationsItems = weatherResponse.getStations();

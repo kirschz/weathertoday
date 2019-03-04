@@ -38,7 +38,7 @@ public class AQIStationActivity extends AppCompatActivity {
     private SweetAlertDialog pDialog;
     private static String URL = "http://air4thai.pcd.go.th/services/";
     private TextView tvAqi;
-    private TextView tvName, tvArea;
+    private TextView tvName, tvArea, tvProvince;
     Retrofit retrofit;
 
     @Override
@@ -50,6 +50,7 @@ public class AQIStationActivity extends AppCompatActivity {
         tvAqi = findViewById(R.id.tvAqi);
         tvName = findViewById(R.id.tvName);
         tvArea = findViewById(R.id.tvArea);
+        tvProvince = findViewById(R.id.tvProvince);
         tvAqi.setText("");
         tvArea.setText("");
         tvName.setText("");
@@ -57,7 +58,13 @@ public class AQIStationActivity extends AppCompatActivity {
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        Bundle extras = getIntent().getExtras();
+        String Province;
 
+        if (extras != null) {
+            Province = extras.getString("Province");
+            tvProvince.setText("Select:"+getString(R.string.txt_province) + Province);
+        }
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5FF86"));
         pDialog.setTitleText("Loading AQI");
@@ -133,9 +140,9 @@ public class AQIStationActivity extends AppCompatActivity {
                     tvAqi.setText("AQI : " +aqi.getAqi());
                     tvArea.setText(aqiStation.getAreaTH());
                     tvName.setText(aqiStation.getNameTH());
-                    //Intent myIntent = new Intent(AQIStationActivity.this, CameraActivity.class);
+                    Intent myIntent = new Intent(AQIStationActivity.this, CameraActivity.class);
                     //myIntent.putExtra("key", "value");
-                    //AQIStationActivity.this.startActivity(myIntent);
+                    AQIStationActivity.this.startActivity(myIntent);
 
                 }
 

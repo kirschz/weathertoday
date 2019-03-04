@@ -1,6 +1,7 @@
 package com.doubleapaper.weathertoday.adapter;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -39,20 +40,20 @@ public class WeatherAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, final View view, final ViewGroup viewGroup) {
-        WeatherListItems item;
+        final WeatherListItems item;
         if (view != null)
             item = (WeatherListItems) view;
         else
             item = new WeatherListItems(viewGroup.getContext());
 
-        StationsItem weatherDao = (StationsItem) getItem(i);
+        final StationsItem weatherDao = (StationsItem) getItem(i);
         if (weatherDao.getObserve() != null) {
             item.setTvWeatherItemTemperature(weatherDao.getObserve().getTemperature().getValue() + "");
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(viewGroup.getContext(), AQIStationActivity.class);
-                    myIntent.putExtra("key", "value");
+                    myIntent.putExtra("Province", weatherDao.getProvince());
                     viewGroup.getContext().startActivity(myIntent);
                 }
             });
@@ -62,7 +63,7 @@ public class WeatherAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(viewGroup.getContext(), AQIStationActivity.class);
-                    myIntent.putExtra("key", "value");
+                    myIntent.putExtra("Province", weatherDao.getProvince());
                     viewGroup.getContext().startActivity(myIntent);
                 }
             });
