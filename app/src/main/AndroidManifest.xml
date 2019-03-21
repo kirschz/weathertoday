@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Calculator"></activity>
+        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Calculator" />
         <activity android:name=".LifeCycleActivity" />
         <activity android:name=".AQIStationActivity" />
         <activity android:name=".SplashScreen">

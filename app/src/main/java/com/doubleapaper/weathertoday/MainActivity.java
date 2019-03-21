@@ -57,13 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         listView =  findViewById(R.id.lvMain);
         tvlastBuiltDate = findViewById(R.id.tvlastBuiltDate);
-
+        GetUserData();
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
-        pDialog.show();
-        GetData();
+        //pDialog.show();
+        //GetData();
+
     }
 
 
@@ -79,9 +80,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public interface GetWeatherToday {
-        @GET("V1/")
+        @POST("in")
         Call<WeatherResponse> GetWeatherToday(@Query("type") String type);
 
+    }
+    public interface GetUserData {
+        @POST("input")
+        Call<String> MyDaya(@Body String user);
+
+    }
+    public  void GetUserData(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://wsptst.doubleapaper.com/ws_test/api/Data/GetUserName/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        GetUserData service = retrofit.create(GetUserData.class);
+        Call<String> call = service.MyDaya("anecha_b@doublea1991.com");
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+             Log.i("joke",response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("joke","t:"+t.getMessage());
+            }
+        });
     }
     public void GetData(){
         Retrofit retrofit = new Retrofit.Builder()

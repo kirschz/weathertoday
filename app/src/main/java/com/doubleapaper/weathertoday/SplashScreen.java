@@ -46,7 +46,7 @@ public class SplashScreen extends AppCompatActivity {
                         handler = new Handler();
                         runnable = new Runnable() {
                             public void run() {
-                                Intent myIntent = new Intent(SplashScreen.this, Calculator.class);
+                                Intent myIntent = new Intent(SplashScreen.this, MainActivity.class);
                                 myIntent.putExtra("key", "value");
                                 SplashScreen.this.startActivity(myIntent);
                                 finish();
