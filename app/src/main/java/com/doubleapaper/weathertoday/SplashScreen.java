@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
@@ -46,10 +47,10 @@ public class SplashScreen extends AppCompatActivity {
                         handler = new Handler();
                         runnable = new Runnable() {
                             public void run() {
-                                Intent myIntent = new Intent(SplashScreen.this, MainActivity.class);
-                                myIntent.putExtra("key", "value");
-                                SplashScreen.this.startActivity(myIntent);
-                                finish();
+                               // Intent myIntent = new Intent(SplashScreen.this, Main2Activity.class);
+                               // myIntent.putExtra("key", "value");
+                               // SplashScreen.this.startActivity(myIntent);
+                                //finish();
                             }
                         };
 
@@ -95,4 +96,17 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
+    public void NewActivity(View view) {
+        Intent myIntent;
+if (view.getId() == R.id.bts1)
+    myIntent = new Intent(SplashScreen.this, Main2Activity.class);
+else if (view.getId() == R.id.bts2) myIntent = new Intent(SplashScreen.this, Main3Activity.class);
+else if (view.getId() == R.id.bts3) myIntent = new Intent(SplashScreen.this, Main4Activity.class);
+else if (view.getId() == R.id.bts4) myIntent = new Intent(SplashScreen.this, Main5Activity.class);
+else if (view.getId() == R.id.bts5) myIntent = new Intent(SplashScreen.this, Main6Activity.class);
+else if (view.getId() == R.id.bts6) myIntent = new Intent(SplashScreen.this, Main7Activity.class);
+else  myIntent = new Intent(SplashScreen.this, MainActivity.class);
+        SplashScreen.this.startActivity(myIntent);
+        finish();
+    }
 }

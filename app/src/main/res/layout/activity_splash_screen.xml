@@ -6,4 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".SplashScreen">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bts1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="NewActivity"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/bts2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="NewActivity"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/bts3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="NewActivity"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/bts4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="NewActivity"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/bts5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="NewActivity"
+
+            android:text="5" />
+
+        <Button
+            android:id="@+id/bts6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="NewActivity"
+            android:text="6" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

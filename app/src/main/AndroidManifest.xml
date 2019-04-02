@@ -20,7 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Main7Activity"></activity>
+        <activity android:name=".Main6Activity" />
+        <activity android:name=".Main5Activity" />
+        <activity android:name=".Main4Activity" />
+        <activity android:name=".Main3Activity" />
+        <activity android:name=".Main2Activity" />
         <activity android:name=".Calculator" />
         <activity android:name=".LifeCycleActivity" />
         <activity android:name=".AQIStationActivity" />
